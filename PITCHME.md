@@ -100,12 +100,13 @@ public static readonly ProductInfos IMMUTABLE_PURCHASE_ITEM_INFOS = new ProductI
 
 ---
 
-## 5. LocPurcRoutをnewして使う
+## 5. 購買機構をnewして使う
 
 さてここからコードの話になる。  
+
 ここまでくれば、アイテムを買う場所、買う内容、その暗号化などが揃っている。  
 
-で、実際にゲーム中での購買処理をどのようにセットしていくかを書く。
+実際のゲーム中での購買処理は、
 
 * LocalPurchaseRouterの初期化
 * 購入
@@ -115,7 +116,7 @@ public static readonly ProductInfos IMMUTABLE_PURCHASE_ITEM_INFOS = new ProductI
 
 +++
 
-## LocalPurchaseRouterの初期化
+## LocalPurchaseRouter初期化
 
 ```C#
 localPurchaseRouter = new LocalPurchaseRouter(
@@ -171,85 +172,14 @@ localPurchaseRouter = new LocalPurchaseRouter(
 @[1](アプリケーションの起動時にインスタンスを生成)
 
 +++
-
-
-```C#
-localPurchaseRouter = new LocalPurchaseRouter(
-	PurchaseSettings.IMMUTABLE_PURCHASE_ITEM_INFOS.productInfos,
-	() => {
-		Debug.Log("ready purchase.");
-	}, 
-	(err, reason) => {
-		Debug.LogError("failed to ready purchase. error:" + err + " reason:" + reason);
-	}, 
-	alreadyPurchasedProductId => {
-		/*
-			this action will be called when 
-				the IAP feature found non-completed purchase record
-					&&
-				the validate result of that is OK.
-
-			need to deploy product to user.
-		 */
-		
-		// deploy purchased product to user here.
-	}
-);
-```
 @[2](設定ファイルに書かれているプロダクトを買えるようにする。)
 
 +++
 
-```C#
-localPurchaseRouter = new LocalPurchaseRouter(
-	PurchaseSettings.IMMUTABLE_PURCHASE_ITEM_INFOS.productInfos,
-	() => {
-		Debug.Log("ready purchase.");
-	}, 
-	(err, reason) => {
-		Debug.LogError("failed to ready purchase. error:" + err + " reason:" + reason);
-	}, 
-	alreadyPurchasedProductId => {
-		/*
-			this action will be called when 
-				the IAP feature found non-completed purchase record
-					&&
-				the validate result of that is OK.
-
-			need to deploy product to user.
-		 */
-		
-		// deploy purchased product to user here.
-	}
-);
-```
 @[3](購入準備が完了したらここにくる。)
 
 +++
 
-```C#
-localPurchaseRouter = new LocalPurchaseRouter(
-	PurchaseSettings.IMMUTABLE_PURCHASE_ITEM_INFOS.productInfos,
-	() => {
-		Debug.Log("ready purchase.");
-	}, 
-	(err, reason) => {
-		Debug.LogError("failed to ready purchase. error:" + err + " reason:" + reason);
-	}, 
-	alreadyPurchasedProductId => {
-		/*
-			this action will be called when 
-				the IAP feature found non-completed purchase record
-					&&
-				the validate result of that is OK.
-
-			need to deploy product to user.
-		 */
-		
-		// deploy purchased product to user here.
-	}
-);
-```
 @[6](準備エラーが発生するとここに来る。)
 
 +++
@@ -294,8 +224,8 @@ localPurchaseRouter = new LocalPurchaseRouter(
 +++
 
 インスタンスを作成して一つ目のハンドラが  
-着火すれば、このインスタンスからアイテムの  
-購入が可能になる。
+着火すれば、このインスタンスから  
+アイテムの購入が可能になる。
 +++
 
 ## 購入
@@ -333,7 +263,13 @@ localPurchaseRouter.PurchaseAsync(
 	}
 );
 ```
-[@1](PurchaseAsyncで購入開始。)
+@[1](PurchaseAsyncで購入開始。)
+
++++
+
+@[2](第1引数には好きな文字列を入れるといい。)
+@[3](第2引数には買う商品のIdを入れる。)
+
 
 全全全全全全全全全全全全全全全全全全全全  
 全角でだいたい20文字/行
