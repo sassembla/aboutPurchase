@@ -26,8 +26,10 @@ UnityIAPの機構を使った課金処理。
 
 ## 準備と動作のフロー
 
+先ずはクライアント側のみ。
+
 1. 各プラットフォームにアイテムをセット
-1. URLをPurchaseSettings.csに記述
+1. PurchaseSettings.csのURL調整
 1. アイテムを売る画面を作る
 1. Autoya経由で使う
 
@@ -41,7 +43,7 @@ PF識別子(_iOSとか_Androidとか)を
 
 ---
 
-## 2.URLをPurchaseSettings.csに記述
+## 2.PurchaseSettings.csのURL調整
 **PurchaseSettings.cs**  
 
 ```C#
@@ -180,9 +182,7 @@ Autoya.Purchase(
 アイテム付与後のコールバック
 
 * サーバ最新のアイテム所持情報問い合わせ
-* 終わったらローディングを停める
-
-などの処理を書く想定。
+* 終わったらローディングを停める とか想定
 
 +++
 
