@@ -103,6 +103,8 @@ public static readonly ProductInfos IMMUTABLE_PURCHASE_ITEM_INFOS = new ProductI
 
 がんばってくれ。
 
+---
+
 ## 5. LocPurcRoutをnewして使う
 
 さてここからコードの話になる。  
@@ -163,7 +165,7 @@ localPurchaseRouter = new LocalPurchaseRouter(
 	}
 );
 ```
-@[0]アプリケーションの起動時にインスタンスを生成
+@[0](アプリケーションの起動時にインスタンスを生成)
 
 +++
 
@@ -191,7 +193,7 @@ localPurchaseRouter = new LocalPurchaseRouter(
 	}
 );
 ```
-@[1]設定ファイルに書かれているプロダクトを買えるようにする。
+@[1](設定ファイルに書かれているプロダクトを買えるようにする。)
 
 
 
