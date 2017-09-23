@@ -358,7 +358,7 @@ localPurchaseRouter = new LocalPurchaseRouter(
 
 +++
 
-**Q.購入処理中にアプリが落ちたらどうなるの**|
+**Q.購入処理中にアプリが落ちたらどうなるの** |
 
 ### A.未解決の購入処理が彷徨う。
 
