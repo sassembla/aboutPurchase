@@ -239,10 +239,38 @@ localPurchaseRouter.PurchaseAsync(
 追っていく。
 
 +++
-
+```C#
+localPurchaseRouter.PurchaseAsync(
+	purchaseId, 
+	"100_gold_coins", 
+	purchasedId => {
+		Debug.Log("purchase succeeded, purchasedId:" + purchasedId + " purchased item id:" + "100_gold_coins");
+		// deploy purchased product to user here.
+	}, 
+	(purchasedId, error, reason) => {
+		Debug.LogError("failed to purchase Id:" + purchasedId + " failed, error:" + error + " reason:" + reason);
+	}
+);
+```
 @[1](PurchaseAsyncで購入開始。)
 @[2](第1引数には好きな文字列を入れるといい。)
 @[3](第2引数には買う商品のIdを入れる。)
+
+ここでは100_gold_coinsを買う。  
+ちゃんと設定にあるものを選ぼう。
+
+@[4](無事購入終了するとここにくる。)
+
+ユーザーへとこのアイテムの付与を行おう。  
+例えばアイテムの所持数を増やして保存、とか。
+
+purchasedIdには第一引数に入れたのが来る。
+
+@[8](失敗するとここ。)
+
+ユーザーに何かを伝えるチャンス。  
+すでに購入処理はキャンセルされてる。
+
 
 
 全全全全全全全全全全全全全全全全全全全全  
