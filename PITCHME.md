@@ -1,6 +1,3 @@
-全全全全全全全全全全全全全全全全全全全全  
-全角でだいたい20文字/行
-
 # local purchaseについて
 
 ---
@@ -74,8 +71,6 @@ public static readonly ProductInfos IMMUTABLE_PURCHASE_ITEM_INFOS = new ProductI
 };
 ```
 
----
-
 +++
 
 iOS/Androidの両方で出す場合：
@@ -111,6 +106,14 @@ public static readonly ProductInfos IMMUTABLE_PURCHASE_ITEM_INFOS = new ProductI
 ここまでくれば、アイテムを買う場所、買う内容、その暗号化などが揃っている。  
 
 で、実際にゲーム中での購買処理をどのようにセットしていくかを書く。
+
+* LocalPurchaseRouterの初期化
+* 購入
+* 商品の提供
+
+の3段階に分かれる。
+
++++
 
 **LocalPurchaseRouterの初期化**
 
@@ -165,7 +168,7 @@ localPurchaseRouter = new LocalPurchaseRouter(
 	}
 );
 ```
-@[0](アプリケーションの起動時にインスタンスを生成)
+@[1](アプリケーションの起動時にインスタンスを生成)
 
 +++
 
@@ -193,7 +196,107 @@ localPurchaseRouter = new LocalPurchaseRouter(
 	}
 );
 ```
-@[1](設定ファイルに書かれているプロダクトを買えるようにする。)
+@[2](設定ファイルに書かれているプロダクトを買えるようにする。)
+
++++
+
+```C#
+localPurchaseRouter = new LocalPurchaseRouter(
+	PurchaseSettings.IMMUTABLE_PURCHASE_ITEM_INFOS.productInfos,
+	() => {
+		Debug.Log("ready purchase.");
+	}, 
+	(err, reason) => {
+		Debug.LogError("failed to ready purchase. error:" + err + " reason:" + reason);
+	}, 
+	alreadyPurchasedProductId => {
+		/*
+			this action will be called when 
+				the IAP feature found non-completed purchase record
+					&&
+				the validate result of that is OK.
+
+			need to deploy product to user.
+		 */
+		
+		// deploy purchased product to user here.
+	}
+);
+```
+@[3](購入準備が完了したらここにくる。)
+
++++
+
+```C#
+localPurchaseRouter = new LocalPurchaseRouter(
+	PurchaseSettings.IMMUTABLE_PURCHASE_ITEM_INFOS.productInfos,
+	() => {
+		Debug.Log("ready purchase.");
+	}, 
+	(err, reason) => {
+		Debug.LogError("failed to ready purchase. error:" + err + " reason:" + reason);
+	}, 
+	alreadyPurchasedProductId => {
+		/*
+			this action will be called when 
+				the IAP feature found non-completed purchase record
+					&&
+				the validate result of that is OK.
+
+			need to deploy product to user.
+		 */
+		
+		// deploy purchased product to user here.
+	}
+);
+```
+@[6](準備エラーが発生するとここに来る。)
+
++++
+
+準備エラーって何：  
+まあ理由はさまざまなんだけど、  
+例えばユーザーがBANされてたりとか。  
+
+errに種類、reasonに理由が入るので、  
+アイテムを購入したければ頑張ってね、  
+みたいな旨をこう。
+
+再度インスタンスを初期化すれば発生する。
+
++++
+
+```C#
+localPurchaseRouter = new LocalPurchaseRouter(
+	PurchaseSettings.IMMUTABLE_PURCHASE_ITEM_INFOS.productInfos,
+	() => {
+		Debug.Log("ready purchase.");
+	}, 
+	(err, reason) => {
+		Debug.LogError("failed to ready purchase. error:" + err + " reason:" + reason);
+	}, 
+	alreadyPurchasedProductId => {
+		/*
+			this action will be called when 
+				the IAP feature found non-completed purchase record
+					&&
+				the validate result of that is OK.
+
+			need to deploy product to user.
+		 */
+		
+		// deploy purchased product to user here.
+	}
+);
+```
+@[9](ここはちょっとあとで説明する。)
+
++++
+
+インスタンスを作成して一つ目のハンドラが  
+着火すれば、このインスタンスからアイテムの  
+購入が可能になる。
 
 
-
+全全全全全全全全全全全全全全全全全全全全  
+全角でだいたい20文字/行
