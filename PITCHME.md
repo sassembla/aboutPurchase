@@ -291,7 +291,7 @@ localPurchaseRouter.PurchaseAsync(
 	}
 );
 ```
-@[4]
+@[4-7]
 
 無事購入終了するとここにくる。
 
@@ -322,7 +322,117 @@ localPurchaseRouter.PurchaseAsync(
 ユーザーに何かを伝えるチャンス。  
 すでに購入処理はキャンセルされてる。
 
+これで購買処理の話は終わり。
+
+---
+
+## 購入失敗について
+
+```C#
+localPurchaseRouter = new LocalPurchaseRouter(
+	PurchaseSettings.IMMUTABLE_PURCHASE_ITEM_INFOS.productInfos,
+	() => {
+		Debug.Log("ready purchase.");
+	}, 
+	(err, reason) => {
+		Debug.LogError("failed to ready purchase. error:" + err + " reason:" + reason);
+	}, 
+	alreadyPurchasedProductId => {
+		/*
+			this action will be called when 
+				the IAP feature found non-completed purchase record
+					&&
+				the validate result of that is OK.
+
+			need to deploy product to user.
+		 */
+		
+		// deploy purchased product to user here.
+	}
+);
+```
+
+インスタンス初期化の第4引数の解説をする。  
+
+というのもこれ厄介で。
+
++++
+
+**Q.購入処理中にアプリが落ちたらどうなるの**
+
++++
+
+**Q.購入処理中にアプリが落ちたらどうなるの**
+
+### A.購入処理が彷徨う。
+
+
++++
+
+どう彷徨うかは、  
+どのタイミングで落ちたかによる。
+
+
++++
+
+内部的には次のようなフェーズがある。
+
+1. 購入前
+2. 購入後
+3. アイテム付与後
+
++++
+
+## 1.購入前
+
+ユーザーに、OS提供の「購入しますか」が　　
+現れる前 or 現れている状態。
+
+ここでアプリが落ちても平気。
+
+ユーザーがyesって押すと、  
+PFとの通信後、**2.購入後**に遷移する。
+
+## 2.購入後
+
+購入が終わり、ユーザーに価値 = 　　
+お金の対価を渡す必要がある地点。
+
+ここで
+
+```C#
+localPurchaseRouter.PurchaseAsync(
+	purchaseId, 
+	"100_gold_coins", 
+	purchasedId => {
+		Debug.Log("purchase succeeded, purchasedId:" + purchasedId + " purchased item id:" + "100_gold_coins");
+		// deploy purchased product to user here.
+	},
+```
+@[4-7]
+
+この関数が呼ばれる。
+
++++
+
+この部分でユーザーにお金の価値を渡したのち、  
+**3.アイテム付与後** に遷移する。
+
+ここで対価付与前にアプリが落ちると、
+**お金は払ったんだけど対価をもらってない**
+状態になる。
+
+つまり**権利が行使されないまま彷徨う。**
 
 
 全全全全全全全全全全全全全全全全全全全全  
 全角でだいたい20文字/行
+
+```C#
+localPurchaseRouter = new LocalPurchaseRouter(
+	PurchaseSettings.IMMUTABLE_PURCHASE_ITEM_INFOS.productInfos,
+	() => {
+		Debug.Log("ready purchase.");
+	}, 
+```
+@[3-5]
