@@ -351,16 +351,20 @@ localPurchaseRouter = new LocalPurchaseRouter(
 	}
 );
 ```
-
+@[9-20]
 インスタンス初期化の第4引数の解説をする。  
 
 というのもこれ厄介で。
 
 +++
 
-**Q.購入処理中にアプリが落ちたらどうなるの** |
+**Q.購入処理中にアプリが落ちたらどうなるの**
 
-### A.未解決の購入処理が彷徨う。
++++
+
+**Q.購入処理中にアプリが落ちたらどうなるの**|
+
+### A.購入処理が彷徨う。
 
 
 +++
@@ -381,20 +385,18 @@ localPurchaseRouter = new LocalPurchaseRouter(
 
 ## 1.購入前
 
-ユーザーに、OS提供の「購入しますか」が　　
+ユーザーに、OS提供の「購入しますか」が  
 現れる前 or 現れている状態。
 
-ここでアプリが落ちても平気。
+ここでアプリが落ちても平気。  
+課金は始まってない。
 
 ユーザーがyesって押すと、  
 PFとの通信後、**2.購入後**に遷移する。
 
-
-+++
-
 ## 2.購入後
 
-購入が終わり、ユーザーに価値 = 　　
+購入が終わり、ユーザーに価値 =  
 お金の対価を渡す必要がある地点。
 
 ここで
@@ -423,9 +425,9 @@ localPurchaseRouter.PurchaseAsync(
 
 つまり**権利が行使されないまま彷徨う。**
 
++++
 
-全全全全全全全全全全全全全全全全全全全全  
-全角でだいたい20文字/行
+で、再度アプリを起動すると、
 
 ```C#
 localPurchaseRouter = new LocalPurchaseRouter(
@@ -433,5 +435,50 @@ localPurchaseRouter = new LocalPurchaseRouter(
 	() => {
 		Debug.Log("ready purchase.");
 	}, 
+	(err, reason) => {
+		Debug.LogError("failed to ready purchase. error:" + err + " reason:" + reason);
+	}, 
+	alreadyPurchasedProductId => {
+		/*
+			this action will be called when 
+				the IAP feature found non-completed purchase record
+					&&
+				the validate result of that is OK.
+
+			need to deploy product to user.
+		 */
+		
+		// deploy purchased product to user here.
+	}
+);
 ```
-@[3-5]
+@[9-20]
+
+もうお分かりだろうか。
+ここに、「未処理の課金済みのやつ」が来る。
+
+
+PurchaseAsyncでfailしたのなら来ない。  
+successしててかつ付与が終わらずにいると、  
+来る。
+
++++
+
+## 来たらどうする？
+
+課金済んでるんで、アイテムを配布。
+
+このハンドラが呼ばれるということは、  
+**いろんなチェックが済んでいる**ので  
+アイテムを付与して問題ないことを指す。  
+
+いろいろなチェックについては次。
+
+---
+
+## いろいろなチェック
+
+
+
+全全全全全全全全全全全全全全全全全全全全  
+全角でだいたい20文字/行
