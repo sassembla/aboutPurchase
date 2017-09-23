@@ -115,7 +115,7 @@ public static readonly ProductInfos IMMUTABLE_PURCHASE_ITEM_INFOS = new ProductI
 
 +++
 
-**LocalPurchaseRouterの初期化**
+## LocalPurchaseRouterの初期化
 
 ```C#
 localPurchaseRouter = new LocalPurchaseRouter(
@@ -296,7 +296,44 @@ localPurchaseRouter = new LocalPurchaseRouter(
 インスタンスを作成して一つ目のハンドラが  
 着火すれば、このインスタンスからアイテムの  
 購入が可能になる。
++++
 
+## 購入
+
+次のようなコードで購入処理ができる。
+
+```C#
+localPurchaseRouter.PurchaseAsync(
+	purchaseId, 
+	"100_gold_coins", 
+	purchasedId => {
+		Debug.Log("purchase succeeded, purchasedId:" + purchasedId + " purchased item id:" + "100_gold_coins");
+		// deploy purchased product to user here.
+	}, 
+	(purchasedId, error, reason) => {
+		Debug.LogError("failed to purchase Id:" + purchasedId + " failed, error:" + error + " reason:" + reason);
+	}
+);
+```
+
+追っていく。
+
++++
+
+```C#
+localPurchaseRouter.PurchaseAsync(
+	purchaseId, 
+	"100_gold_coins", 
+	purchasedId => {
+		Debug.Log("purchase succeeded, purchasedId:" + purchasedId + " purchased item id:" + "100_gold_coins");
+		// deploy purchased product to user here.
+	}, 
+	(purchasedId, error, reason) => {
+		Debug.LogError("failed to purchase Id:" + purchasedId + " failed, error:" + error + " reason:" + reason);
+	}
+);
+```
+[@1](PurchaseAsyncで購入開始。)
 
 全全全全全全全全全全全全全全全全全全全全  
 全角でだいたい20文字/行
