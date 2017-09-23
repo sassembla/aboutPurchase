@@ -38,3 +38,28 @@ UnityIAPの機構を使った課金処理。
 
 ---
 
+## 1.各PFにアイテムをセット
+がんばってください
+---
+
+## 2.RVObfに情報をセット
+[Unity Doc](https://docs.unity3d.com/Manual/UnityIAPValidatingReceipts.html)  
+がんばってください
+
+---
+
+## 3.商品情報をP~.csに記述
+```C#
+/*
+	immutable purchasable item infos.
+*/
+public static readonly ProductInfos IMMUTABLE_PURCHASE_ITEM_INFOS = new ProductInfos {
+	productInfos = new ProductInfo[] {
+		new ProductInfo("100_gold_coins", "100_gold_coins_iOS", true, "one hundled of coins."),
+		new ProductInfo("1000_gold_coins", "1000_gold_coins_iOS", true, "one ton of coins."),
+		new ProductInfo("10000_gold_coins", "10000_gold_coins_iOS", false, "ten tons of coins."),// this product setting is example of not allow to buy for this player, disable to buy but need to be displayed.
+	}
+};
+```
+
+
