@@ -104,8 +104,6 @@ public static readonly ProductInfos IMMUTABLE_PURCHASE_ITEM_INFOS = new ProductI
 
 さてここからコードの話になる。  
 
-ここまでくれば、アイテムを買う場所、買う内容、その暗号化などが揃っている。  
-
 実際のゲーム中での購買処理は、
 
 * LocalPurchaseRouterの初期化
@@ -170,16 +168,8 @@ localPurchaseRouter = new LocalPurchaseRouter(
 );
 ```
 @[1](アプリケーションの起動時にインスタンスを生成)
-
-+++
 @[2](設定ファイルに書かれているプロダクトを買えるようにする。)
-
-+++
-
 @[3](購入準備が完了したらここにくる。)
-
-+++
-
 @[6](準備エラーが発生するとここに来る。)
 
 +++
@@ -250,23 +240,7 @@ localPurchaseRouter.PurchaseAsync(
 
 +++
 
-```C#
-localPurchaseRouter.PurchaseAsync(
-	purchaseId, 
-	"100_gold_coins", 
-	purchasedId => {
-		Debug.Log("purchase succeeded, purchasedId:" + purchasedId + " purchased item id:" + "100_gold_coins");
-		// deploy purchased product to user here.
-	}, 
-	(purchasedId, error, reason) => {
-		Debug.LogError("failed to purchase Id:" + purchasedId + " failed, error:" + error + " reason:" + reason);
-	}
-);
-```
 @[1](PurchaseAsyncで購入開始。)
-
-+++
-
 @[2](第1引数には好きな文字列を入れるといい。)
 @[3](第2引数には買う商品のIdを入れる。)
 
