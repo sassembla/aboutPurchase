@@ -358,13 +358,9 @@ localPurchaseRouter = new LocalPurchaseRouter(
 
 +++
 
-**Q.購入処理中にアプリが落ちたらどうなるの**
+**Q.購入処理中にアプリが落ちたらどうなるの**|
 
-+++
-
-**Q.購入処理中にアプリが落ちたらどうなるの**
-
-### A.購入処理が彷徨う。
+### A.未解決の購入処理が彷徨う。
 
 
 +++
@@ -392,6 +388,9 @@ localPurchaseRouter = new LocalPurchaseRouter(
 
 ユーザーがyesって押すと、  
 PFとの通信後、**2.購入後**に遷移する。
+
+
++++
 
 ## 2.購入後
 
