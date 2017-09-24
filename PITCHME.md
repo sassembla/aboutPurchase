@@ -11,7 +11,7 @@ Autoyaには2種の課金機構が搭載されてる。
 [コード](https://github.com/sassembla/Autoya/blob/master/Assets/Autoya/Purchase/PurchaseRouter.cs)
 
 サーバなしのやつ  
-[local](https://gitpitch.com/sassembla/aboutPurchase/remotePurchase#)
+[local](https://gitpitch.com/sassembla/aboutPurchase/localPurchase#)
 
 [コード](https://github.com/sassembla/Autoya/blob/master/Assets/Autoya/Purchase/LocalPurchaseRouter.cs)
 
