@@ -300,6 +300,39 @@ Autoya.Purchase(
 クライアントは一覧を使って課金機構を初期化。  
 準備完了となる。
 
++++
+
+サーバが返すべき購入可能アイテム一覧は  
+[ProductInfos](https://github.com/sassembla/Autoya/blob/master/Assets/Autoya/Purchase/PurchaseRouter.cs#L36)型
+
++++
+
+json例  
+
+```json
+{
+	"productInfos": [{
+		"productId": "100_gold_coins",
+		"platformProductId": "100_gold_coins_iOS",
+		"isAvailableToThisPlayer": true,
+		"info": "one hundled of coins."
+	}, {
+		"productId": "1000_gold_coins",
+		"platformProductId": "1000_gold_coins_iOS",
+		"isAvailableToThisPlayer": true,
+		"info": "one ton of coins."
+	}]
+}
+```
+
++++
+
+OverridePoint.csを書き換えて、  
+サーバから受け取ったアイテムを使うように  
+変更。  
+
+[書き換えてね](https://github.com/sassembla/Autoya/blob/7e69c19da3af364b03ff2a49dcc1d3f512af17b5/Assets/Autoya/Backyard/OverridePoints.cs#L204)
+
 ---
 
 ## 4. ☆購入(クライアント)
