@@ -344,10 +344,17 @@ OverridePoint.csを書き換えて、
 どんな商品が購入可能かは、
 
 ```C#
-var items = Autoya.Purchase_ProductInfos();
+var products = Autoya.Purchase_ProductInfos();
 ```
 
-で取得できる。
+で取得できる。  
+購入時の商品のidは、
+
+```C#
+string product.productId
+```
+
+を使う。
 
 ---
 
