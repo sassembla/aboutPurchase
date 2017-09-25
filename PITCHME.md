@@ -217,9 +217,24 @@ localPurchaseRouter = new LocalPurchaseRouter(
 インスタンスを作成して一つ目のハンドラが  
 着火すれば、このインスタンスから  
 アイテムの購入が可能になる。
+
 +++
 
 ## 購入
+
+買いたいものを指定して、購入処理を開始。
+
++++
+
+どんな商品が購入可能かは、
+
+```C#
+var products = localPurchaseRouter.ProductInfos();
+```
+
+で取得できる。
+
++++
 
 次のようなコードで購入処理ができる。
 
@@ -272,7 +287,7 @@ localPurchaseRouter.PurchaseAsync(
 ```
 @[3]
 
-第2引数には買う商品のIdを入れる。 
+第2引数には買う商品のproductIdを入れる。 
  
 ここでは**100_gold_coins**を買う。  
 ちゃんと設定にあるものを選ぼう。
